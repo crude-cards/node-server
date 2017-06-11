@@ -1,0 +1,35 @@
+{
+  "name": "crude-cards-server",
+  "version": "0.0.1",
+  "description": "node.js server for Crude Cards",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "eslint src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/crude-cards/node-server.git"
+  },
+  "keywords": [
+    "crude",
+    "cards"
+  ],
+  "author": "Amish Shah <amishshah.2k@gmail.com>",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/crude-cards/node-server/issues"
+  },
+  "homepage": "https://github.com/crude-cards/node-server#readme",
+  "dependencies": {
+    "restify": "^4.3.0",
+    "superagent": "^3.5.2",
+    "ws": "^3.0.0"
+  },
+  "eslintConfig": {
+    "extends": "aqua"
+  },
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-aqua": "^1.2.1"
+  }
+}

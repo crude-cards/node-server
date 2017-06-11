@@ -2,6 +2,10 @@
   <p>
     <a href="https://crudecards.xyz"><img src="https://crudecards.xyz/assets/logo.svg" width="256" alt="Crud Cards" /></a>
   </p>
+	<p>
+		<a href="https://discord.gg/ZpXwXKJ"><img src="https://discordapp.com/api/guilds/320327291634974720/embed.png" alt="Discord server" /></a>
+	<a href="https://travis-ci.org/crude-cards/node-server"><img src="https://travis-ci.org/crude-cards/node-server.svg?branch=master" alt="Build status" /></a>
+	</p>
 </div>
 
 ## About
