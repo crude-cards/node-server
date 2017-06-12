@@ -25,9 +25,11 @@ cd node-server
 # Install dependencies
 npm install
 
-# Setup database
-# Watch out! This deletes any existing crude_cards database
-psql -U <username> -f scripts/setup.sql
+# Fill in config (username, password, host, and port)
+nano configs/db.json
+
+# Set up!
+npm run create
 
 # Start server
 npm run start

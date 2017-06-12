@@ -4,7 +4,8 @@
   "description": "node.js server for Crude Cards",
   "main": "src/index.js",
   "scripts": {
-    "test": "eslint src"
+    "test": "eslint src",
+    "create": "node scripts/setup"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,7 @@
   },
   "homepage": "https://github.com/crude-cards/node-server#readme",
   "dependencies": {
+    "cah-cards": "github:crude-cards/cah-cards",
     "pg-promise": "^5.9.2",
     "restify": "^4.3.0",
     "superagent": "^3.5.2",
