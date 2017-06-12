@@ -26,7 +26,10 @@
     "ws": "^3.0.0"
   },
   "eslintConfig": {
-    "extends": "aqua"
+    "extends": "aqua",
+    "rules": {
+      "no-console": 0
+    }
   },
   "devDependencies": {
     "eslint": "^3.19.0",

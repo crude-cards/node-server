@@ -11,6 +11,28 @@
 ## About
 The official node.js server for [Crude Cards.](https://crudecards.xyz/)
 
+## Set up
+### Requirements
+1) PostgreSQL, make sure you can run `psql`.
+2) Node.js v8.
+
+### Commands
+```bash
+# Clone the repo
+git clone https://github.com/crude-cards/node-server.git
+cd node-server
+
+# Install dependencies
+npm install
+
+# Setup database
+# Watch out! This deletes any existing crude_cards database
+psql -U <username> -f scripts/setup.sql
+
+# Start server
+npm run start
+```
+
 ## License
 > Copyright 2017 Amish Shah
 > 
