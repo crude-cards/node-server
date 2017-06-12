@@ -4,7 +4,7 @@ const decks = require('cah-cards');
 const pgp = require('pg-promise')();
 
 const proc = childProcess.spawn(config.psql || 'psql',
-	['-U', config.username, '-f', 'scripts/db_structure.sql'],
+	['-U', config.username, '-h', config.host, '-f', 'scripts/db_structure.sql'],
 	{ env: { PGPASSWORD: config.password } });
 
 console.log('Setting up database');
