@@ -6,7 +6,6 @@ CREATE DATABASE crude_cards;
 CREATE TABLE users (
 	id serial PRIMARY KEY,
 	username varchar (32) NOT NULL,
-	token varchar(64) UNIQUE,
 	discord_id varchar (32) UNIQUE,
 	google_id varchar (32) UNIQUE
 );
