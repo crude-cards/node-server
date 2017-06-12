@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/crude-cards/node-server#readme",
   "dependencies": {
+    "pg-promise": "^5.9.2",
     "restify": "^4.3.0",
     "superagent": "^3.5.2",
     "ws": "^3.0.0"
