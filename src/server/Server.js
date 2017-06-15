@@ -3,6 +3,7 @@ const constants = require('../constants');
 const restify = require('restify');
 const Logger = require('../utils/Logger');
 const DataStore = require('../data/DataStore');
+const REST = require('./REST');
 
 /**
  * Represents a Crude Cards server (instantiate this!)
@@ -39,6 +40,11 @@ class Server extends EventEmitter {
 		 * @type {DataStore}
 		 */
 		this.data = new DataStore(this);
+		/**
+		 * REST
+		 * @type {REST}
+		 */
+		this.rest = new REST(this);
 		this.logger.info(`Starting server on port 443, API v${constants.api_version}`);
 		this.server.listen(443);
 	}

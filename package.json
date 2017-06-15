@@ -24,15 +24,17 @@
   "dependencies": {
     "cah-cards": "github:crude-cards/cah-cards",
     "pg-promise": "^5.9.2",
+    "query-string": "^4.3.4",
     "restify": "^4.3.0",
-    "superagent": "^3.5.2",
+    "snekfetch": "^3.1.11",
     "ws": "^3.0.0"
   },
   "eslintConfig": {
     "extends": "aqua",
     "rules": {
       "no-console": 0,
-      "camelcase": 0
+      "camelcase": 0,
+      "arrow-body-style": 0
     }
   },
   "devDependencies": {
