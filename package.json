@@ -5,7 +5,8 @@
   "main": "src/index.js",
   "scripts": {
     "test": "eslint src",
-    "create": "node scripts/setup"
+    "create": "node scripts/setup",
+    "start": "node/scripts/run"
   },
   "repository": {
     "type": "git",
