@@ -29,6 +29,7 @@ class Server extends EventEmitter {
 			key: options.https.key
 		});
 		server.use(restify.plugins.acceptParser(server.acceptable));
+		server.use(restify.CORS()); // eslint-disable-line
 		server.use(restify.plugins.queryParser());
 		server.use(restify.plugins.bodyParser());
 		server.listen(443);
