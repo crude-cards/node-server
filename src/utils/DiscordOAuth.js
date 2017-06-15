@@ -11,7 +11,7 @@ exports.token = (config, code) => {
 			client_id: config.client_id,
 			client_secret: config.client_secret,
 			code,
-			redirect_uri: 'https://localhost/callback'
+			redirect_uri: `https://crudecards.xyz/verify.html`
 		}))
 		.then(res => res.body);
 };

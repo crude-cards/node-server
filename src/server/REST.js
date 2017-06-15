@@ -7,8 +7,8 @@ class REST {
 		const server = this.server = cc_server.server;
 
 		server.post('/api/authenticate/discord', async (req, res, next) => {
-			if (req.body) {
-				const code = req.body.code;
+			if (req.params) {
+				const code = req.params.code;
 				try {
 					const discord_token = (await Discord.token(this.cc_server.options.discord, code)).access_token;
 					const details = await Discord.details(discord_token);
@@ -27,6 +27,7 @@ class REST {
 				} catch (err) {
 					if (err.status === 401) {
 						res.send(401, { message: 'Bad authorization code provided' });
+						return next();
 					}
 					res.send(500, { message: err.message });
 					this.cc_server.logger.error(err);
