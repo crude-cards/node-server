@@ -2,6 +2,7 @@ const EventEmitter = require('events');
 const constants = require('../constants');
 const restify = require('restify');
 const Logger = require('../utils/Logger');
+const DataStore = require('../data/DataStore');
 
 /**
  * Represents a Crude Cards server (instantiate this!)
@@ -9,10 +10,10 @@ const Logger = require('../utils/Logger');
 class Server extends EventEmitter {
 	constructor(options = {}) {
 		super();
-		options = Object.assign(options, constants.default_options);
+		this.options = options = Object.assign(options, constants.default_options);
 		options.api_version = constants.api_version;
 		/**
-		 * The logger for this server
+		 * The logger for this server.
 		 * @type {Logger}
 		 */
 		this.logger = new Logger();
@@ -33,6 +34,11 @@ class Server extends EventEmitter {
 	}
 
 	start() {
+		/**
+		 * The Data Store for this server.
+		 * @type {DataStore}
+		 */
+		this.data = new DataStore(this);
 		this.logger.info(`Starting server on port 443, API v${constants.api_version}`);
 		this.server.listen(443);
 	}
