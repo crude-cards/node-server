@@ -3,7 +3,7 @@ const constants = require('../constants');
 const restify = require('restify');
 const Logger = require('../utils/Logger');
 const DataStore = require('../data/DataStore');
-const REST = require('./REST');
+const REST = require('./rest/REST');
 
 /**
  * Represents a Crude Cards server (instantiate this!)
