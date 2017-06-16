@@ -1,6 +1,6 @@
-const ROUTES = {
-	authenticate_discord: require('./routes/authenticate_discord')
-};
+const ROUTES = [
+	'authenticate_discord'
+].map(file => require(`./routes/${file}`));
 
 class REST {
 	constructor(cc_server) {
