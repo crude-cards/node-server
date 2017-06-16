@@ -19,11 +19,11 @@ class AuthenticateDiscordRoute extends Route {
 				.token(req.params.code)
 				.then(token_details => this.discord.details(token_details.access_token));
 		} catch (error) {
-			console.log(req.params);
 			if (error.status === 401) {
 				this.send_error(res, 401, `Invalid 'code' parameter supplied`);
 				return;
 			}
+			this.cc_server.logger.warn(error);
 		}
 
 		// See if the user already has an account
@@ -37,6 +37,7 @@ class AuthenticateDiscordRoute extends Route {
 				);
 			}
 		} catch (error) {
+			this.cc_server.logger.error(error);
 			this.send_error(res, 500, 'Error querying database.');
 			return;
 		}
@@ -52,6 +53,7 @@ class AuthenticateDiscordRoute extends Route {
 				}
 			});
 		} catch (error) {
+			this.cc_server.logger.error(error);
 			this.send_error(res, 500, 'Error generating token.');
 		}
 	}
