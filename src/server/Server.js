@@ -4,6 +4,7 @@ const restify = require('restify');
 const Logger = require('../utils/Logger');
 const DataStore = require('../data/DataStore');
 const REST = require('./rest/REST');
+const Gateway = require('./gateway/Gateway');
 
 /**
  * Represents a Crude Cards server (instantiate this!)
@@ -33,9 +34,6 @@ class Server extends EventEmitter {
 		server.use(restify.plugins.queryParser());
 		server.use(restify.plugins.bodyParser());
 		server.listen(443);
-	}
-
-	start() {
 		/**
 		 * The Data Store for this server.
 		 * @type {DataStore}
@@ -46,7 +44,7 @@ class Server extends EventEmitter {
 		 * @type {REST}
 		 */
 		this.rest = new REST(this);
-		this.logger.info(`Starting server on port 443, API v${constants.api_version}`);
+		this.gateway = new Gateway(this);
 		this.server.listen(443);
 	}
 }

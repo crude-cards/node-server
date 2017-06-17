@@ -10,7 +10,4 @@ config.database = require('../configs/db.json');
 const server = new CrudeCards.Server(config);
 
 server.logger.on('message', event => console.log(event.message));
-
-server.start();
-
 process.on('unhandledRejection', console.log);

@@ -28,7 +28,7 @@
     "query-string": "^4.3.4",
     "restify": "^4.3.0",
     "snekfetch": "^3.1.11",
-    "ws": "^3.0.0"
+    "uws": "^0.14.5"
   },
   "eslintConfig": {
     "extends": "aqua",
