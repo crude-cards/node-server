@@ -16,7 +16,7 @@ class REST {
 						try {
 							await route[term](req, res, next);
 						} catch (error) {
-							res.send(500, 'Unexpected internal error.');
+							res.send(500, { message: 'Unexpected internal error.' });
 							this.cc_server.logger.error(error);
 						}
 						next();

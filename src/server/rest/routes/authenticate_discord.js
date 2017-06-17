@@ -4,7 +4,7 @@ const Discord = require('../../../utils/DiscordOAuth');
 class AuthenticateDiscordRoute extends Route {
 	constructor(rest) {
 		super(rest, '/api/authenticate/discord');
-		this.discord = new Discord(this.cc_server.options.discord);
+		this.discord = new Discord(this.cc_server);
 	}
 
 	async post(req, res) {
@@ -23,7 +23,7 @@ class AuthenticateDiscordRoute extends Route {
 				this.send_error(res, 401, `Invalid 'code' parameter supplied`);
 				return;
 			}
-			this.cc_server.logger.warn(error);
+			throw error;
 		}
 
 		// See if the user already has an account
