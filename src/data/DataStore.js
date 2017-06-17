@@ -9,6 +9,7 @@ class DataStore {
 		this.logger = server.logger;
 		const config = this.server.options.database;
 		this.logger.info('Connecting to database...');
+		this.pgp = pgp;
 		this.db = pgp({
 			host: config.host,
 			port: config.port,

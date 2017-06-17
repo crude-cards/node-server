@@ -1,6 +1,8 @@
+const RESTError = require('./routes/Route').RESTError;
 const ROUTES = [
 	'meta',
-	'authenticate_discord'
+	'authenticate_discord',
+	'users'
 ].map(file => require(`./routes/${file}`));
 
 class REST {
@@ -18,8 +20,12 @@ class REST {
 						try {
 							await route[term](req, res, next);
 						} catch (error) {
-							res.send(500, { message: 'Unexpected internal error.' });
-							this.cc_server.logger.error(error);
+							if (error instanceof RESTError) {
+								res.send(error.code, { message: error.message });
+							} else {
+								res.send(500, { message: 'Unexpected internal error.' });
+								this.cc_server.logger.error(error);
+							}
 						}
 						next();
 					});

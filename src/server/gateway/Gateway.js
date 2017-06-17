@@ -18,7 +18,14 @@ class Gateway {
 			const handler = new Handler(this);
 			this.packet_handlers.set(handler.options.code, handler);
 		}
-		this.heartbeat_sweep_interval = setInterval(this.heartbeat_sweep.bind(this), 1e3);
+		this.heartbeat_sweep_interval = setInterval(this.heartbeat_sweep.bind(this), 40e3);
+	}
+
+	send(packet) {
+		const raw = JSON.stringify(packet);
+		for (const ws of this.verified.keys()) {
+			ws.send(raw);
+		}
 	}
 
 	heartbeat_sweep() {

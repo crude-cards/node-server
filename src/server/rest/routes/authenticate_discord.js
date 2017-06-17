@@ -9,8 +9,7 @@ class AuthenticateDiscordRoute extends Route {
 
 	async post(req, res) {
 		if (!req.params || !req.params.code) {
-			this.send_error(res, 400, `Parameter 'code' must be supplied.`);
-			return;
+			throw this.error(400, `Parameter 'code' must be supplied.`);
 		}
 		// Fetch discord details from OAuth code
 		let discord_details;
@@ -20,8 +19,7 @@ class AuthenticateDiscordRoute extends Route {
 				.then(token_details => this.discord.details(token_details.access_token));
 		} catch (error) {
 			if (error.status === 401) {
-				this.send_error(res, 401, `Invalid 'code' parameter supplied`);
-				return;
+				throw this.error(401, `Invalid 'code' parameter supplied`);
 			}
 			throw error;
 		}
@@ -38,8 +36,7 @@ class AuthenticateDiscordRoute extends Route {
 			}
 		} catch (error) {
 			this.cc_server.logger.error(error);
-			this.send_error(res, 500, 'Error querying database.');
-			return;
+			throw this.error(500, 'Error querying database.');
 		}
 
 		// Retrieve token for the user
@@ -54,7 +51,7 @@ class AuthenticateDiscordRoute extends Route {
 			});
 		} catch (error) {
 			this.cc_server.logger.error(error);
-			this.send_error(res, 500, 'Error generating token.');
+			throw this.error(500, 'Error generating token.');
 		}
 	}
 }
