@@ -17,19 +17,19 @@ class DataStore {
 			password: config.password
 		});
 
-		this._tokens = new Map();
+		this.tokens = new Map();
 	}
 
 	async generate_token(user_id) {
 		const existing = this.token_for(user_id);
 		if (existing) return existing;
 		const token = `${(await random_bytes(16)).toString('hex')}-${user_id}`;
-		this._tokens.set(token, user_id);
+		this.tokens.set(token, user_id);
 		return token;
 	}
 
 	token_for(wanted_user_id) { // eslint-disable-line consistent-return
-		for (const [token, user_id] of this._tokens.entries()) {
+		for (const [token, user_id] of this.tokens.entries()) {
 			if (wanted_user_id === user_id) return token;
 		}
 	}
