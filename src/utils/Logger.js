@@ -7,7 +7,7 @@ const EventEmitter = require('events');
 class Logger extends EventEmitter {
 	/**
 	 * Emits a log message.
-	 * @param {string} msg The message to emit.
+	 * @param {string} message The message to emit.
 	 * @param {string} type The type of log message (info|warn|error.)
 	 */
 	message(message, type) {
@@ -27,17 +27,17 @@ class Logger extends EventEmitter {
 	}
 	/**
 	 * Emits a log message with type 'info'.
-	 * @param {string} msg The log message.
+	 * @param {string} message The log message.
 	 */
 	info(message) { this.message(message, 'info'); }
 	/**
 	 * Emits a log message with type 'warn'.
-	 * @param {string} msg The log message.
+	 * @param {string} message The log message.
 	 */
 	warn(message) { this.message(message, 'warn'); }
 	/**
 	 * Emits a log message with type 'error', as well as an error event.
-	 * @param {Error} msg The log message.
+	 * @param {Error} error The log message.
 	 */
 	error(error) {
 		this.message(error.toString(), 'error');
