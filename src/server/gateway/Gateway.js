@@ -1,6 +1,7 @@
 const WebSocketServer = require('uws').Server;
 const PACKET_HANDLERS = [
-	'identify'
+	'identify',
+	'heartbeat'
 ].map(file => require(`./handlers/${file}`));
 
 class Gateway {
@@ -17,6 +18,16 @@ class Gateway {
 			const handler = new Handler(this);
 			this.packet_handlers.set(handler.options.code, handler);
 		}
+		this.heartbeat_sweep_interval = setInterval(this.heartbeat_sweep.bind(this), 1e3);
+	}
+
+	heartbeat_sweep() {
+		for (const [ws, entry] of this.verified.entries()) {
+			entry.heartbeats_missed++;
+			if (entry.heartbeats_missed > 2) {
+				this.disconnect_client(ws, 4001);
+			}
+		}
 	}
 
 	disconnect_client(ws, code = 1000) {
@@ -26,6 +37,9 @@ class Gateway {
 
 	event_connection(ws) {
 		ws.on('message', message => this.event_message(ws, message));
+		setTimeout(() => {
+			if (!this.verified.has(ws)) this.disconnect_client(ws);
+		}, 15e3);
 	}
 
 	event_message(ws, message) {
@@ -55,6 +69,7 @@ class Gateway {
 				return;
 			}
 			this.cc_server.logger.error(error);
+			this.disconnect_client(ws, 1006);
 		}
 	}
 }
