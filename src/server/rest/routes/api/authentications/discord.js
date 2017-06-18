@@ -1,7 +1,7 @@
 const Route = require('../../Route');
 const Discord = require('../../DiscordOAuth');
 
-class AuthenticateDiscord extends Route {
+class AuthenticationDiscord extends Route {
 	constructor(server) {
 		super('/api/authentications/discord', server);
 		this.discord = new Discord(this.server);
@@ -45,10 +45,13 @@ class AuthenticateDiscord extends Route {
 		try {
 			var user = await this.data.db.one('UPDATE users SET discord_id=NULL WHERE id=$1 RETURNING *', userID);
 		} catch (error) {
+			if (error.code === '23514') {
+				throw this.error(400, 'You must have at least one authentication.');
+			}
 			throw this.error(500, 'Error querying database.');
 		}
 		res.send({ user });
 	}
 }
 
-module.exports = AuthenticateDiscord;
+module.exports = AuthenticationDiscord;

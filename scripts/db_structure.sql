@@ -7,7 +7,8 @@ CREATE TABLE users (
 	id serial PRIMARY KEY,
 	username varchar(32) NOT NULL,
 	discord_id varchar(32) UNIQUE,
-	google_id varchar(32) UNIQUE
+	google_id varchar(32) UNIQUE,
+	CHECK (discord_id IS NOT NULL OR google_id IS NOT NULL)
 );
 
 CREATE TABLE decks (
