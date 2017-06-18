@@ -8,7 +8,7 @@ class AuthenticateGoogle extends Route {
 	}
 
 	async post(req, res) {
-		if (!req.params || !req.params.code) {
+		if (!req.params.code) {
 			throw this.error(400, `Parameter 'code' must be supplied.`);
 		}
 		try {
