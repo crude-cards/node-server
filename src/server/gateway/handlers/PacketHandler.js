@@ -1,7 +1,7 @@
 class GatewayClientError extends Error {
 	constructor(message, code) {
 		super(message);
-		this.disconnect_code = code;
+		this.disconnectCode = code;
 	}
 }
 
@@ -11,8 +11,8 @@ class PacketHandler {
 		this.options = options;
 	}
 
-	throw_client_error(message, code) {
-		throw new GatewayClientError(message, code);
+	clientError(message, code) {
+		return new GatewayClientError(message, code);
 	}
 
 	handle(ws, packet) {

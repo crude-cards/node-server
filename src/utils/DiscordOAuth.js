@@ -2,8 +2,8 @@ const request = require('snekfetch');
 const querystring = require('query-string');
 
 class Discord {
-	constructor(cc_server) {
-		this.cc_server = cc_server;
+	constructor(server) {
+		this.server = server;
 	}
 
 	token(code) {
@@ -13,10 +13,10 @@ class Discord {
 			.set('Accept-Type', 'application/json')
 			.send(querystring.stringify({
 				grant_type: 'authorization_code',
-				client_id: this.cc_server.options.discord.client_id,
-				client_secret: this.cc_server.options.discord.client_secret,
+				client_id: this.server.options.discord.client_id,
+				client_secret: this.server.options.discord.client_secret,
 				code,
-				redirect_uri: `https://${this.cc_server.options.development ? 'localhost' : 'crudecards.xyz'}/verify.html`
+				redirect_uri: `https://${this.server.options.development ? 'localhost' : 'crudecards.xyz'}/verify.html`
 			}))
 			.then(res => res.body);
 	}

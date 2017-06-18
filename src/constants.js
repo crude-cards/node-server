@@ -1,8 +1,8 @@
-exports.api_version = 1;
+exports.apiVersion = 1;
 
-exports.default_options = {
+exports.defaultOptions = {
 	name: 'Crude Cards Server',
 	description: 'A basic node.js server (╯°□°）╯︵ ┻━┻',
-	max_games: 50,
-	max_players: 200
+	maxGames: 50,
+	maxPlayers: 200
 };

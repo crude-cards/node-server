@@ -1,9 +1,9 @@
 const EventEmitter = require('events');
-const constants = require('../constants');
+const Constants = require('../constants');
 const restify = require('restify');
 const Logger = require('../utils/Logger');
 const DataStore = require('../data/DataStore');
-const REST = require('./rest/REST');
+const API = require('./routes/api');
 const Gateway = require('./gateway/Gateway');
 
 /**
@@ -12,40 +12,49 @@ const Gateway = require('./gateway/Gateway');
 class Server extends EventEmitter {
 	constructor(options = {}) {
 		super();
-		this.options = options = Object.assign(options, constants.default_options);
-		options.api_version = constants.api_version;
+		this.options = options = Object.assign(options, Constants.defaultOptions);
+		options.apiVersion = Constants.apiVersion;
+
 		/**
 		 * The logger for this server.
 		 * @type {Logger}
 		 */
 		this.logger = new Logger();
+
 		/**
 		 * The server created by restify
 		 * @type {Restify.Server}
 		 */
-		const server = this.server = restify.createServer({
+		const rest = this.rest = restify.createServer({
 			name: 'crudecards-nodejs',
-			version: `${constants.api_version}.0.0`,
+			version: `${Constants.apiVersion}.0.0`,
 			certificate: options.https.certificate,
 			key: options.https.key
 		});
-		server.use(restify.plugins.acceptParser(server.acceptable));
-		server.use(restify.CORS()); // eslint-disable-line
-		server.use(restify.plugins.queryParser());
-		server.use(restify.plugins.bodyParser());
-		server.listen(443);
+
+		rest.use(restify.plugins.acceptParser(rest.acceptable));
+		rest.use(restify.CORS()); // eslint-disable-line
+		rest.use(restify.plugins.queryParser());
+		rest.use(restify.plugins.bodyParser());
+
+		rest.listen(443);
+
 		/**
 		 * The Data Store for this server.
 		 * @type {DataStore}
 		 */
 		this.data = new DataStore(this);
-		/**
-		 * REST
-		 * @type {REST}
-		 */
-		this.rest = new REST(this);
+		this.api = new API(this);
 		this.gateway = new Gateway(this);
-		this.server.listen(443);
+		this.rest.listen(443);
+	}
+
+	get players() {
+		return this.gateway.wss.clients.length;
+	}
+
+	get games() {
+		return 0;
 	}
 }
 

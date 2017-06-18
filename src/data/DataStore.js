@@ -1,7 +1,7 @@
 const pgp = require('pg-promise')();
 const crypto = require('crypto');
 const { promisify } = require('util');
-const random_bytes = promisify(crypto.randomBytes);
+const randomBytes = promisify(crypto.randomBytes);
 
 class DataStore {
 	constructor(server) {
@@ -21,17 +21,17 @@ class DataStore {
 		this.tokens = new Map();
 	}
 
-	async generate_token(user_id) {
-		const existing = this.token_for(user_id);
+	async generateToken(userID) {
+		const existing = this.tokenFor(userID);
 		if (existing) return existing;
-		const token = `${(await random_bytes(16)).toString('hex')}-${user_id}`;
-		this.tokens.set(token, user_id);
+		const token = `${(await randomBytes(16)).toString('hex')}-${userID}`;
+		this.tokens.set(token, userID);
 		return token;
 	}
 
-	token_for(wanted_user_id) { // eslint-disable-line consistent-return
-		for (const [token, user_id] of this.tokens.entries()) {
-			if (wanted_user_id === user_id) return token;
+	tokenFor(userID) { // eslint-disable-line consistent-return
+		for (const [token, id] of this.tokens.entries()) {
+			if (userID === id) return token;
 		}
 	}
 }

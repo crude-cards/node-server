@@ -5,20 +5,24 @@ const PACKET_HANDLERS = [
 ].map(file => require(`./handlers/${file}`));
 
 class Gateway {
-	constructor(cc_server) {
-		this.cc_server = cc_server;
+	constructor(server) {
+		this.server = server;
 		this.wss = new WebSocketServer({
-			server: cc_server.server,
+			server: server.rest,
 			path: '/gateway'
 		});
-		this.wss.on('connection', this.event_connection.bind(this));
+
+		this.wss.on('connection', this.onConnection.bind(this));
+
 		this.verified = new Map();
-		this.packet_handlers = new Map();
+		this.packetHandlers = new Map();
+
 		for (const Handler of PACKET_HANDLERS) {
 			const handler = new Handler(this);
-			this.packet_handlers.set(handler.options.code, handler);
+			this.packetHandlers.set(handler.options.code, handler);
 		}
-		this.heartbeat_sweep_interval = setInterval(this.heartbeat_sweep.bind(this), 40e3);
+
+		this.heartbeatInterval = setInterval(this.heartbeat.bind(this), 40e3);
 	}
 
 	send(packet) {
@@ -28,55 +32,54 @@ class Gateway {
 		}
 	}
 
-	heartbeat_sweep() {
+	heartbeat() {
 		for (const [ws, entry] of this.verified.entries()) {
-			entry.heartbeats_missed++;
-			if (entry.heartbeats_missed > 2) {
-				this.disconnect_client(ws, 4001);
+			entry.heartbeatsMissed++;
+			if (entry.heartbeatsMissed > 2) {
+				this.disconnectClient(ws, 4001);
 			}
 		}
 	}
 
-	disconnect_client(ws, code = 1000) {
+	disconnectClient(ws, code = 1000) {
 		this.verified.delete(ws);
 		ws.close(code);
 	}
 
-	event_connection(ws) {
-		ws.on('message', message => this.event_message(ws, message));
+	onConnection(ws) {
+		ws.on('message', message => this.onMessage(ws, message));
 		setTimeout(() => {
-			if (!this.verified.has(ws)) this.disconnect_client(ws);
+			if (!this.verified.has(ws)) this.disconnectClient(ws);
 		}, 15e3);
 	}
 
-	event_message(ws, message) {
-		let packet;
+	onMessage(ws, message) {
 		try {
-			packet = JSON.parse(message);
-			if (!Object.getOwnPropertyDescriptor(packet, 't')) throw Error();
-			if (!Number.isInteger(packet.t)) throw Error();
+			var packet = JSON.parse(message);
+			if (!Object.getOwnPropertyDescriptor(packet, 't')) throw new Error();
+			if (!Number.isInteger(packet.t)) throw new Error();
 		} catch (err) {
-			this.disconnect_client(ws);
+			this.disconnectClient(ws);
 			return;
 		}
-		this.event_packet(ws, packet);
+		this.onPacket(ws, packet);
 	}
 
-	async event_packet(ws, packet) {
-		const handler = this.packet_handlers.get(packet.t);
+	async onPacket(ws, packet) {
+		const handler = this.packetHandlers.get(packet.t);
 		if (!handler) {
-			this.disconnect_client(ws);
+			this.disconnectClient(ws);
 			return;
 		}
 		try {
 			await handler.handle(ws, packet);
 		} catch (error) {
-			if (error.disconnect_code) {
-				this.disconnect_client(ws, error.disconnect_code);
+			if (error.disconnectCode) {
+				this.disconnectClient(ws, error.disconnectCode);
 				return;
 			}
-			this.cc_server.logger.error(error);
-			this.disconnect_client(ws, 1006);
+			this.server.logger.error(error);
+			this.disconnectClient(ws, 1006);
 		}
 	}
 }
