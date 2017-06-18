@@ -12,7 +12,7 @@ class RESTError extends Error {
 
 class Route {
 	constructor(subpath, parent) {
-		this.path = parent.path + subpath;
+		this.path = parent ? parent.path + subpath : subpath;
 		this.subroutes = [];
 
 		if (parent) {
