@@ -14,10 +14,7 @@ CREATE TABLE users (
 CREATE TABLE decks (
 	id serial PRIMARY KEY,
 	name varchar(32) NOT NULL,
-	owner_id int REFERENCES users (id),
 	cardcast_id varchar(8) UNIQUE,
 	white_cards varchar(500)[],
 	black_cards varchar(500)[]
 );
-
-INSERT INTO users (username) VALUES ('Server');

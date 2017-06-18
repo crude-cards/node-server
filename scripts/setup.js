@@ -31,9 +31,9 @@ proc.on('close', async code => {
 	for (const deck of Object.values(decks)) {
 		try {
 			const id = await db.one(
-				`INSERT INTO decks (name, owner_id, white_cards, black_cards) VALUES
+				`INSERT INTO decks (name, cardcast_id, white_cards, black_cards) VALUES
 				($1, $2, $3::varchar(500)[], $4::varchar(500)[]) RETURNING id`,
-				[deck.name, 1, deck.white, deck.black]);
+				[deck.name, null, deck.white, deck.black]);
 			console.log(` - Added "${deck.name}" -- ID ${id.id}`);
 		} catch (err) {
 			console.log(err);
