@@ -3,7 +3,7 @@ const Constants = require('../constants');
 const restify = require('restify');
 const Logger = require('../utils/Logger');
 const DataStore = require('../data/DataStore');
-const API = require('./routes/api');
+const API = require('./rest/routes/api');
 const Gateway = require('./gateway/Gateway');
 
 /**
