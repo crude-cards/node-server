@@ -1,4 +1,4 @@
-const METHODS = ['get', 'post', 'delete', 'patch', 'put'];
+const METHODS = ['get', 'post', 'del', 'patch', 'put'];
 
 class RESTError extends Error {
 	constructor(code, message) {

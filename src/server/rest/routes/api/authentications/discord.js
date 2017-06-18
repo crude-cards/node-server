@@ -39,6 +39,16 @@ class AuthenticateDiscord extends Route {
 
 		res.send({ user });
 	}
+
+	async del(req, res) {
+		const userID = this.ensureAuthorized(req);
+		try {
+			var user = await this.data.db.one('UPDATE users SET discord_id=NULL WHERE id=$1 RETURNING *', userID);
+		} catch (error) {
+			throw this.error(500, 'Error querying database.');
+		}
+		res.send({ user });
+	}
 }
 
 module.exports = AuthenticateDiscord;
