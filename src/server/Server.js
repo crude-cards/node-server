@@ -3,7 +3,11 @@ const Constants = require('../constants');
 const restify = require('restify');
 const Logger = require('../utils/Logger');
 const DataStore = require('../data/DataStore');
-const API = require('./rest/routes/api');
+const fs = require('fs');
+const path = require('path');
+const util = require('util');
+const readDir = util.promisify(fs.readdir);
+const stat = util.promisify(fs.stat);
 const Gateway = require('./gateway/Gateway');
 
 /**
@@ -44,9 +48,27 @@ class Server extends EventEmitter {
 		 * @type {DataStore}
 		 */
 		this.data = new DataStore(this);
-		this.api = new API(this);
+
+		this.routes = new Set();
+		this.loadRoutes(path.join(__dirname, './rest/routes/api'));
+
 		this.gateway = new Gateway(this);
 		this.rest.listen(443);
+	}
+
+	async loadRoutes(dir) {
+		const files = await readDir(dir);
+		files.forEach(async file => {
+			file = path.join(dir, file);
+			const stats = await stat(file);
+			if (file.endsWith('.js') && !stats.isDirectory()) {
+				const route = new (require(file))(this);
+				this.routes.add(route);
+				this.logger.info(`Loaded route ${route.path}`);
+			} else if (stats.isDirectory()) {
+				this.loadRoutes(file);
+			}
+		});
 	}
 
 	get players() {

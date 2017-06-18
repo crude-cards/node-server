@@ -1,9 +1,9 @@
-const Route = require('./Route');
-const Discord = require('../../../utils/DiscordOAuth');
+const Route = require('../../Route');
+const Discord = require('../../DiscordOAuth');
 
 class AuthenticateDiscord extends Route {
-	constructor(parent) {
-		super('/discord', parent);
+	constructor(server) {
+		super('/api/authenticate/discord', server);
 		this.discord = new Discord(this.server);
 	}
 

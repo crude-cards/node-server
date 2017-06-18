@@ -1,21 +1,20 @@
-const Route = require('../../Route');
+const Route = require('../Route');
 
 class Meta extends Route {
-	constructor(parent) {
-		super('/meta', parent);
+	constructor(server) {
+		super('/api/meta', server);
 	}
 
 	get(req, res) {
-		const { options, players, games } = this.server;
-		const { name, description, apiVersion, maxPlayers, maxGames } = options;
+		const { name, description, apiVersion, maxPlayers, maxGames } = this.server.options;
 
 		res.json({
 			name,
 			description,
 			api_version: apiVersion,
-			players: players,
+			players: this.server.gateway.wss.clients.length,
 			max_players: maxPlayers,
-			games,
+			games: 0,
 			max_games: maxGames
 		});
 	}

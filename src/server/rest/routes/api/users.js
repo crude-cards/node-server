@@ -1,8 +1,8 @@
-const Route = require('../../Route');
+const Route = require('../Route');
 
 class Users extends Route {
-	constructor(parent) {
-		super('/users/:id', parent);
+	constructor(server) {
+		super('/api/users/:id', server);
 	}
 
 	async get(req, res) {
