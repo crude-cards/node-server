@@ -1,6 +1,6 @@
 <div align="center">
   <p>
-    <a href="https://crudecards.xyz"><img src="https://crudecards.xyz/assets/logo.svg" width="256" alt="Crud Cards" /></a>
+    <a href="https://crudecards.xyz"><img src="https://crudecards.xyz/static/assets/logo.svg" width="256" alt="Crude Cards" /></a>
   </p>
 	<p>
 		<a href="https://discord.gg/ZpXwXKJ"><img src="https://discordapp.com/api/guilds/320327291634974720/embed.png" alt="Discord server" /></a>
