@@ -16,7 +16,7 @@ const Gateway = require('./gateway/Gateway');
 class Server extends EventEmitter {
 	constructor(options = {}) {
 		super();
-		this.options = options = Object.assign(options, Constants.defaultOptions);
+		this.options = options = Object.assign(Constants.defaultOptions, options);
 		options.apiVersion = Constants.apiVersion;
 
 		/**
