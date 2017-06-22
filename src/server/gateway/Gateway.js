@@ -42,7 +42,8 @@ class Gateway {
 	}
 
 	disconnectClient(ws, code = 1000) {
-		this.userMap.get(ws).remove();
+		const user = this.userMap.get(ws);
+		if (user) user.remove();
 		ws.close(code);
 	}
 

@@ -8,7 +8,7 @@ class MessageCollection extends Collection {
 		if (!data.content) throw this.error(400, 'Content must be specified');
 		data.content = String(data.content);
 
-		if (channel !== -1 && !this.store.games.has(channel)) throw this.error(404, `Channel '${channel}' is invalid.`);
+		if (channel !== -1 && !this.store.channels.has(channel)) throw this.error(404, `Channel '${channel}' is invalid.`);
 		if (data.content.length > 2000) throw this.error(400, `Content must be less than 2000 characters.`);
 
 		// Cache message

@@ -9,6 +9,9 @@ class ConnectedUsers {
 	remove() {
 		this.store.connectedUsers.delete(this.id);
 		this.store.server.gateway.userMap.delete(this.ws);
+		for (const channel of this.store.channels.values()) {
+			channel.delete(this);
+		}
 	}
 }
 

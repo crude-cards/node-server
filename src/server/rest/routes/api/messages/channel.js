@@ -7,7 +7,7 @@ class Meta extends Route {
 
 	get(req, res) {
 		const channel = parseInt(req.params.channel);
-		if (channel !== -1 && !this.server.games.has(channel)) throw this.error(404, `Channel '${channel}' not found.`);
+		if (channel !== -1 && !this.server.channels.has(channel)) throw this.error(404, `Channel '${channel}' not found.`);
 		const messages = Array.from(this.server.data.messages.get(parseInt(req.params.channel))) || [];
 		res.send({ messages });
 	}
