@@ -5,5 +5,5 @@ exports.defaultOptions = {
 	description: 'A basic node.js server (╯°□°）╯︵ ┻━┻',
 	maxGames: 50,
 	maxPlayers: 200,
-	baseWebsite: 'https://crudecards.xyz'
+	redirectWebsite: 'https://crudecards.xyz'
 };
