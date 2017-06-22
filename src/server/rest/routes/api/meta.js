@@ -15,7 +15,11 @@ class Meta extends Route {
 			players: this.server.gateway.wss.clients.length,
 			max_players: maxPlayers,
 			games: 0,
-			max_games: maxGames
+			max_games: maxGames,
+			authentication: {
+				discord_client_id: this.server.options.discord.client_id,
+				google_client_id: this.server.options.google.client_id
+			}
 		});
 	}
 }
