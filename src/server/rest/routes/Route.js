@@ -1,11 +1,5 @@
 const METHODS = ['get', 'post', 'del', 'patch', 'put'];
-
-class RESTError extends Error {
-	constructor(code, message) {
-		super(message);
-		this.code = code;
-	}
-}
+const RESTError = require('./RESTError');
 
 class Route {
 	constructor(path, server) {

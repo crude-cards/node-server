@@ -16,7 +16,7 @@ class Google {
 				client_id: this.server.options.google.client_id,
 				client_secret: this.server.options.google.client_secret,
 				code,
-				redirect_uri: `https://${this.server.options.development ? 'localhost' : 'crudecards.xyz'}/static/verify.html`
+				redirect_uri: `${this.server.options.redirectWebsite}/static/verify.html`
 			}))
 			.then(res => res.body);
 		return JSON.parse(Buffer.from(data.id_token.split('.')[1], 'base64')).sub;

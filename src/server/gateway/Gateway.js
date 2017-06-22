@@ -14,7 +14,7 @@ class Gateway {
 
 		this.wss.on('connection', this.onConnection.bind(this));
 
-		this.verified = new Map();
+		this.userMap = new Map();
 		this.packetHandlers = new Map();
 
 		for (const Handler of PACKET_HANDLERS) {
@@ -27,13 +27,13 @@ class Gateway {
 
 	send(packet) {
 		const raw = JSON.stringify(packet);
-		for (const ws of this.verified.keys()) {
+		for (const ws of this.userMap.keys()) {
 			ws.send(raw);
 		}
 	}
 
 	heartbeat() {
-		for (const [ws, entry] of this.verified.entries()) {
+		for (const [ws, entry] of this.userMap.entries()) {
 			entry.heartbeatsMissed++;
 			if (entry.heartbeatsMissed > 2) {
 				this.disconnectClient(ws, 4001);
@@ -42,14 +42,14 @@ class Gateway {
 	}
 
 	disconnectClient(ws, code = 1000) {
-		this.verified.delete(ws);
+		this.userMap.get(ws).remove();
 		ws.close(code);
 	}
 
 	onConnection(ws) {
 		ws.on('message', message => this.onMessage(ws, message));
 		setTimeout(() => {
-			if (!this.verified.has(ws)) this.disconnectClient(ws);
+			if (!this.userMap.has(ws)) this.disconnectClient(ws);
 		}, 15e3);
 	}
 

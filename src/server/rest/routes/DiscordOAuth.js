@@ -16,7 +16,7 @@ class Discord {
 				client_id: this.server.options.discord.client_id,
 				client_secret: this.server.options.discord.client_secret,
 				code,
-				redirect_uri: `https://${this.server.options.development ? 'localhost' : 'crudecards.xyz'}/static/verify.html`
+				redirect_uri: `${this.server.options.redirectWebsite}/static/verify.html`
 			}))
 			.then(res => res.body);
 	}

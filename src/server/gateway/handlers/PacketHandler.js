@@ -16,7 +16,7 @@ class PacketHandler {
 	}
 
 	handle(ws, packet) {
-		if (this.options.auth && !this.gateway.verified.has(ws)) {
+		if (this.options.auth && !this.gateway.userMap.has(ws)) {
 			throw new GatewayClientError('Client not yet authenticated', 4001);
 		}
 		if (this.options.body && !packet.d) {

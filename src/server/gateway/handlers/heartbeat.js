@@ -7,7 +7,7 @@ class IdentifyHandler extends PacketHandler {
 
 	handle(ws, packet) {
 		super.handle(ws, packet);
-		this.gateway.verified.get(ws).heartbeatsMissed = 0;
+		this.gateway.userMap.get(ws).heartbeatsMissed = 0;
 	}
 }
 

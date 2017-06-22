@@ -36,7 +36,8 @@
       "no-console": 0,
       "camelcase": 0,
       "arrow-body-style": 0,
-      "id-length": 0
+      "id-length": 0,
+      "object-curly-newline": 0
     }
   },
   "devDependencies": {
