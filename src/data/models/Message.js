@@ -1,14 +1,17 @@
-class Message {
-	constructor({ author, time, content, channel }) {
+const Base = require('./Base');
+
+class Message extends Base {
+	constructor(store, { author, time, content, channel }) {
+		super(store);
 		this.author = author;
 		this.time = time;
 		this.content = content;
 		this.channel = channel;
 	}
 
-	static async create(db, data) {
-		data.author = await db.one('SELECT id, username FROM users WHERE id=$1', data.author);
-		return new Message(data);
+	static async create(store, data) {
+		data.author = await store.users.fetch(data.author);
+		return new Message(store, data);
 	}
 }
 

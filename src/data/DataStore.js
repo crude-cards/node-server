@@ -2,7 +2,8 @@ const pgp = require('pg-promise')();
 const crypto = require('crypto');
 const { promisify } = require('util');
 const randomBytes = promisify(crypto.randomBytes);
-const Collections = require('./collections');
+const MessageCollection = require('./collections/MessageCollection');
+const UserCollection = require('./collections/UserCollection');
 
 class DataStore {
 	constructor(server) {
@@ -22,7 +23,8 @@ class DataStore {
 		// Volatile stores (no need to store in database)
 		this.tokens = new Map();
 		if (this.server.options.development) this.tokens.set('1', 1);
-		this.messages = new Collections.MessageCollection(this);
+		this.messages = new MessageCollection(this);
+		this.users = new UserCollection(this);
 		this.connectedUsers = new Map();
 		this.channels = new Map();
 		this.games = new Map();

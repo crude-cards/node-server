@@ -3,7 +3,11 @@ const RESTError = require('../../server/rest/routes/RESTError');
 class Collection extends Map {
 	constructor(store) {
 		super();
-		this.store = store;
+		Object.defineProperty(this, 'store', {
+			value: store,
+			enumerable: false,
+			writable: false
+		});
 	}
 
 	error(code, message) {

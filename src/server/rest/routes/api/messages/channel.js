@@ -8,7 +8,7 @@ class Meta extends Route {
 	get(req, res) {
 		const channel = parseInt(req.params.channel);
 		if (channel !== -1 && !this.server.channels.has(channel)) throw this.error(404, `Channel '${channel}' not found.`);
-		const messages = Array.from(this.server.data.messages.get(parseInt(req.params.channel))) || [];
+		const messages = Array.from(this.server.data.messages.get(parseInt(req.params.channel)) || []);
 		res.send({ messages });
 	}
 
@@ -16,7 +16,9 @@ class Meta extends Route {
 		const author = this.ensureAuthorized(req);
 		const { channel, content } = req.params;
 		res.send({
-			message: await this.server.data.messages.add(channel, { content, author, time: new Date().toISOString() })
+			message: await this.server.data.messages.createMessage(
+				{ channel, content, author, time: new Date().toISOString() }
+			)
 		});
 	}
 }

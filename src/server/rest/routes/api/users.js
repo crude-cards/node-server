@@ -23,20 +23,12 @@ class Users extends Route {
 	async patch(req, res) {
 		const userID = Number(req.params.id);
 		if (this.ensureAuthorized(req) !== userID) throw this.error(403, 'You can only edit your own profile.');
-
 		if (!req.params.username) throw this.error(400, 'Username must be specified.');
 		const username = String(req.params.username);
-
 		if (!username || username.length > 32) throw this.error(400, 'Username must be 32 characters at most.');
 
-		const user = await this.data.db
-			.one('UPDATE users SET username=$1 WHERE id=$2 RETURNING *', [username, userID]);
-
+		const user = await (await this.data.users.fetch(userID)).edit({ username });
 		res.send({ user });
-		this.server.gateway.send({
-			t: 11,
-			d: { user: { id: user.id, username: user.username } }
-		});
 	}
 }
 
